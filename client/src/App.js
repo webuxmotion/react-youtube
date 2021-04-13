@@ -1,6 +1,7 @@
 import MobileNavbar from "components/MobileNavbar";
 import Navbar from "components/Navbar";
 import Sidebar from "components/Sidebar";
+import { useLocationChange } from "hooks/use-location-change";
 import Channel from "pages/Channel";
 import History from "pages/History";
 import Home from "pages/Home";
@@ -12,14 +13,21 @@ import Subscriptions from "pages/Subscriptions";
 import TrendingPage from "pages/Trending";
 import WatchVideoPage from "pages/WatchVideo";
 import YourVideos from "pages/YourVideos";
-import React from "react";
+import React, { useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import Container from "styles/Container";
 
 function App() {
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  const handleCloseSidebar = () => setSidebarOpen(false);
+  const toggleSidebarOpen = () => setSidebarOpen(!isSidebarOpen);
+
+  useLocationChange(handleCloseSidebar);
+
   return <>
-    <Navbar />
-    <Sidebar />
+    <Navbar toggleSidebarOpen={toggleSidebarOpen} />
+    <Sidebar isSidebarOpen={isSidebarOpen} />
     <MobileNavbar />
     <Container>
       <Switch>
